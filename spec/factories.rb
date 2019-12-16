@@ -4,6 +4,7 @@ FactoryBot.define do
   factory :bearer do
     name { 'bearer' }
   end
+
   factory :stock do
     name { 'stock' }
     bearer
