@@ -148,13 +148,11 @@ RSpec.describe Api::V1::StocksController, type: :controller do
 
   describe 'DELETE destroy' do
     let(:stock_id) { stock.id }
-    let(:stock_name) { stock.name }
-    let(:bearer_name) { bearer.name }
     let(:stock_params) do
       {
         id: stock_id,
-        name: stock_name,
-        bearer_name: bearer_name
+        name: stock.name,
+        bearer_name: bearer.name
       }
     end
 
@@ -164,7 +162,7 @@ RSpec.describe Api::V1::StocksController, type: :controller do
 
     context 'when stock exists' do
       it 'soft deletes the stock' do
-        expect(parsed_response['data']['attributes']['name']).to eq(stock_name)
+        expect(parsed_response['data']['attributes']['name']).to eq(stock_params[:name])
         expect(stock.reload.deleted).to eq(true)
       end
     end

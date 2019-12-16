@@ -17,4 +17,6 @@ JSONAPI::Rails.configure do |config|
   # Set default meta.
   # A lambda/proc that will be eval'd in the controller context.
   config.jsonapi_meta = ->() { { server_time: Time.now.utc.iso8601 } }
+
+  config.logger = Logger.new('/dev/null')
 end
