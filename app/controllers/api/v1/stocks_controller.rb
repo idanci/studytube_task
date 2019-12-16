@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::StockssController < Api::BaseController
+class Api::V1::StocksController < Api::BaseController
   def create
     #
   end
