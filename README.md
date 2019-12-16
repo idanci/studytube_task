@@ -1,24 +1,13 @@
-# README
+## Task description:
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Please create 2 models with at least the following attributes:
+- Stock (name: string - must be unique)
+- Bearer (name: string - must be unique)(can own many stocks)
 
-Things you may want to cover:
+Please create some JSON API endpoints:
+1) Create a stock with a referenced bearer.
+2) Update a stock. The bearer cannot be updated with this endpoint. If you need to change it, a new object needs to be created. If Bearer exists already, it must be re-used and connected to the stock.
+3) List all stocks with information their Bearer.
+4) Soft-delete a stock so it doesn't appear on the API.
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Error responses should be detailed enough to see what exactly is missing or wrong.
