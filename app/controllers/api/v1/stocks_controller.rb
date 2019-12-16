@@ -32,7 +32,7 @@ class Api::V1::StocksController < Api::BaseController
   end
 
   def stock
-    @stock ||= Stock.find(params[:id])
+    @stock ||= Stock.find_by!(id: params[:id], deleted: false)
   end
 
   def stock_params
