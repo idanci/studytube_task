@@ -1,0 +1,32 @@
+require:
+  - 'rubocop-rails'
+
+AllCops:
+  Exclude:
+      - 'db/**/*'
+      - 'config/**/*'
+      - 'bin/*'
+      - 'vendor/**/*'
+      - 'Rakefile'
+      - 'Gemfile'
+      - 'config.ru'
+
+Metrics/LineLength:
+  Max: 120
+  IgnoredPatterns: ['\A#']
+  Exclude:
+    - 'db/migrate/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+    - 'db/migrate/*'
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: false

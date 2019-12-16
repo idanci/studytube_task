@@ -3,16 +3,18 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby '2.6.5'
 
-gem 'rails', '~> 6.0.1'
-gem 'pg'
-gem 'puma', '~> 4.1'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'jsonapi-rails'
+gem 'pg'
+gem 'puma', '~> 4.1'
+gem 'rails', '~> 6.0.1'
 
 group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'
   gem 'rspec-rails'
+  gem 'rubocop', require: false
+  gem 'rubocop-rails', require: false
 end
 
 group :development do
