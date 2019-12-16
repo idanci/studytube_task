@@ -16,7 +16,7 @@ class Api::V1::StocksController < Api::BaseController
   end
 
   def index
-    render jsonapi: Stock.all
+    render jsonapi: Stock.where(deleted: false)
   end
 
   def destroy

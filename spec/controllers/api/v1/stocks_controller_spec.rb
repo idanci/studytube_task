@@ -130,21 +130,51 @@ RSpec.describe Api::V1::StocksController, type: :controller do
   end
 
   describe 'GET index' do
+    let(:existing_stock) { create :stock, name: 'One', bearer: bearer }
+    let(:deleted_stock) { create :stock, :deleted, name: 'Two', bearer: bearer }
+
+    before do
+      existing_stock
+      deleted_stock
+
+      get :index, format: :json
+    end
+
     it 'returns a list of existing stocks' do
-      #
+      expect(parsed_response['data'].size).to eq(1)
+      expect(parsed_response['data'].last['id']).to eq(existing_stock.id.to_s)
     end
   end
 
   describe 'DELETE destroy' do
+    let(:stock_id) { stock.id }
+    let(:stock_name) { stock.name }
+    let(:bearer_name) { bearer.name }
+    let(:stock_params) do
+      {
+        id: stock_id,
+        name: stock_name,
+        bearer_name: bearer_name
+      }
+    end
+
+    before do
+      delete :destroy, params: stock_params, format: :json
+    end
+
     context 'when stock exists' do
       it 'soft deletes the stock' do
-        #
+        expect(parsed_response['data']['attributes']['name']).to eq(stock_name)
+        expect(stock.reload.deleted).to eq(true)
       end
     end
 
     context 'when stock does not exist' do
+      let(:stock_id) { 100_500 }
+
       it 'returns serialized error' do
-        #
+        expect(parsed_response['errors'].first['detail']).to eq("Couldn't find Stock with 'id'=100500")
+        expect(response.status).to eq(404)
       end
     end
   end
