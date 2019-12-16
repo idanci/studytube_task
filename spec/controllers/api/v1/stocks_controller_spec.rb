@@ -9,7 +9,7 @@ RSpec.describe Api::V1::StocksController, type: :controller do
   describe 'POST create' do
     let(:stock_params) do
       {
-        name: 'new stock',
+        name: 'stock',
         bearer_name: bearer.name
       }
     end
@@ -32,7 +32,7 @@ RSpec.describe Api::V1::StocksController, type: :controller do
       context 'when bearer name is blank' do
         let(:stock_params) do
           {
-            name: 'new stock',
+            name: 'stock',
             bearer_name: nil
           }
         end
@@ -74,30 +74,56 @@ RSpec.describe Api::V1::StocksController, type: :controller do
   end
 
   describe 'PUT update' do
+    let(:stock_id) { stock.id }
+    let(:stock_name) { stock.name }
+    let(:bearer_name) { bearer.name }
+    let(:stock_params) do
+      {
+        id: stock_id,
+        name: stock_name,
+        bearer_name: bearer_name
+      }
+    end
+
+    before do
+      put :update, params: stock_params, format: :json
+    end
+
     context 'with valid payload' do
+      let(:stock_name) { 'new stock' }
+
       context 'with existing bearer' do
         it 'updates a stock with existing bearer' do
-          #
+          expect(parsed_response['data']['attributes']['name']).to eq(stock_name)
         end
       end
 
       context 'with not existent bearer' do
+        let(:bearer_name) { 'new bearer' }
+
         it 'creates new bearer and updates the stock' do
-          #
+          expect(parsed_response['data']['attributes']['name']).to eq(stock_name)
+          expect(stock.reload.bearer.name).to eq('new bearer')
         end
       end
     end
 
     context 'with invalid payload' do
       context 'when attributes are invalid' do
+        let(:stock_name) { nil }
+
         it 'returns serialized error' do
-          #
+          expect(parsed_response['errors'].first['detail']).to eq('Name of stock can not be blank')
+          expect(response.status).to eq(422)
         end
       end
 
       context 'stock does not exist' do
+        let(:stock_id) { 100_500 }
+
         it 'returns serialized error' do
-          #
+          expect(parsed_response['errors'].first['detail']).to eq("Couldn't find Stock with 'id'=100500")
+          expect(response.status).to eq(404)
         end
       end
     end

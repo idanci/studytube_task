@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Api::V1::StocksController < Api::BaseController
-  before_action :prepare_bearer, only: %i[create update]
+  before_action :bearer, only: %i[create update]
 
   def create
     stock = @bearer.stocks.create!(name: stock_params[:name])
@@ -10,7 +10,7 @@ class Api::V1::StocksController < Api::BaseController
   end
 
   def update
-    stock.update!(name: stock_params[:name])
+    stock.update!(name: stock_params[:name], bearer: bearer)
 
     render jsonapi: stock
   end
@@ -27,12 +27,12 @@ class Api::V1::StocksController < Api::BaseController
 
   private
 
-  def prepare_bearer
+  def bearer
     @bearer = Bearer.find_or_create_by!(name: stock_params[:bearer_name])
   end
 
   def stock
-    @stock ||= Stock.find(id: params[:id])
+    @stock ||= Stock.find(params[:id])
   end
 
   def stock_params

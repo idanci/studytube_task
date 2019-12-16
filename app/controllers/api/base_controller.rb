@@ -6,13 +6,13 @@ class Api::BaseController < ApplicationController
   def handle_errors
     yield
   rescue ActiveRecord::RecordNotFound => e
-    render_api_error(e.message, :not_found)
+    render_record_not_found(e.message, :not_found)
   rescue ActiveRecord::RecordInvalid => e
     render jsonapi_errors: e.record.errors, status: :unprocessable_entity
   end
 
-  def render_api_error(messages, code)
-    data = { errors: { code: code, details: Array.wrap(messages) } }
+  def render_record_not_found(message, code)
+    data = { errors: [{ code: code, detail: message }] }
     render json: data, status: code
   end
 end
