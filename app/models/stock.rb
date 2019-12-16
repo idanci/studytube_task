@@ -1,6 +1,6 @@
-class Bearer < ApplicationRecord
+class Stock < ApplicationRecord
   validates :name, presence: true
   validates :name, uniqueness: true
 
-  has_many :stocks
+  belongs_to :bearer
 end
