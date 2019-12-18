@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 class Api::V1::StocksController < Api::BaseController
-  def create
-    stock = bearer.stocks.create!(name: stock_params[:name])
+  before_action :stock, only: %i[update destroy]
 
-    render jsonapi: stock
+  def create
+    render jsonapi: bearer.stocks.create!(name: stock_params[:name])
   end
 
   def update
